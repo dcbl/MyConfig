@@ -1,0 +1,193 @@
+################################主题################################
+## 壁纸(须先安装feh) 
+exec --no-startup-id feh --bg-scale "/home/dckdl/picture/b03.jpg"
+## 自动关闭屏幕 
+exec --no-startup-id xset dpms 600
+## 启动脚本
+exec --no-startup-id /home/dckdl/bin/rc
+
+# 字体
+font pango:Monaco 10
+
+# 窗口颜色                边框    背景    文字    提示
+client.focused          #333333 #333333 #FFFFFF #333333
+client.focused_inactive #999999 #999999 #FFFFFF #3399FF
+client.unfocused        #999999 #999999 #FFFFFF #3399FF
+client.urgent           #990000 #990000 #FFFFFF #990000
+client.placeholder      #000000 #000000 #FFFFFF #000000
+client.background       #FFFFFF
+
+# bar
+bindsym $mod+m bar mode toggle
+bar {
+    # i3bar调用
+    status_command conky -c $HOME/.config/i3/conkyrc_bar
+    # 显示位置
+    position top
+    # 是否隐藏
+    #mode hide
+    # 显示/隐藏切换键
+    #modifier $mod
+    # 拆解工作区名（隐藏前面的1:2:3:……）
+    strip_workspace_numbers yes
+    # 定义分隔符（适用于i3status）
+    #separator_symbol " "
+    colors {
+        background #333333
+        statusline #FFFFFF
+        #eparator  #3399FF
+        # 工作区颜色         边框    背景    文字
+        focused_workspace  #111111 #111111 #FFFFFF
+        active_workspace   #FFFFFF #FFFFFF #FFFFFF
+        inactive_workspace #333333 #333333 #FFFFFF
+        urgent_workspace   #990000 #990000 #FFFFFF
+        #binding_mode       #990000 #990000 #FFFFFF
+    }
+}
+
+# 设定mod键与工作区名
+set $mod Mod1
+set $WS1 1:bash
+set $WS2 2:web
+set $WS3 3:file
+set $WS4 4:dev
+set $WS5 5:sql
+set $WS6 6
+set $WS7 7
+set $WS8 8
+set $WS9 9
+set $WS0 10
+################################快捷键################################
+#dmenu
+bindsym $mod+n exec --no-startup-id dmenu_run  -fn 'Monaco-12' -nb '#333333' -nf '#FFFFFF' -sb '#111111' -sf '#3399FF'
+
+#termnal
+bindsym $mod+Return exec urxvt 
+
+#边框
+bindsym $mod+b border toggle
+
+# 快捷启动
+bindsym mod4+r exec --no-startup-id dmenu_run
+bindsym mod1+Shift+1 exec --no-startup-id urxvt,workspace $WS1
+bindsym mod1+Shift+2 exec --no-startup-id chromium,workspace $WS2
+bindsym mod1+Shift+3 exec --no-startup-id thunar,workspace $WS3
+bindsym mod1+Shift+4 exec --no-startup-id idea.sh,workspace $WS4
+
+
+# 自动放置
+assign [class="(?i)konsole"] → $WS1
+assign [class="(?i)chromium"] → $WS2
+assign [class="(?i)thunar"] → $WS3
+
+
+# 特殊窗口
+for_window [class="chromium"] layout tabbed 
+for_window [class="thunar"] layout tabbed 
+
+
+# 暂存器
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+
+# 关闭窗口
+bindsym mod1+F4 kill
+
+
+# 边框类型
+new_window 1pixel
+#bindsym $mod+t border normal
+#bindsym $mod+y border 1pixel
+#bindsym $mod+u border none
+
+
+# 切换焦点
+bindsym $mod+q focus parent
+bindsym $mod+k focus up
+bindsym $mod+j focus down
+bindsym $mod+h focus left
+bindsym $mod+l focus right
+
+
+# 改变窗口位置
+bindsym $mod+u move left
+bindsym $mod+i move down
+bindsym $mod+o move up
+bindsym $mod+p move right
+
+
+# 当前窗口全屏
+bindsym $mod+f fullscreen
+
+
+# 改变窗口布局
+bindsym $mod+z layout stacking
+bindsym $mod+x layout tabbed
+bindsym $mod+c layout toggle split
+
+
+# 新建窗口的分割方向
+#bindsym $mod+h split h
+#bindsym $mod+v split v
+
+
+# 浮动/平铺切换
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+
+# 切换工作区
+bindsym mod1+1 workspace $WS1
+bindsym mod1+2 workspace $WS2
+bindsym mod1+3 workspace $WS3
+bindsym mod1+4 workspace $WS4
+bindsym mod1+5 workspace $WS5
+bindsym mod1+6 workspace $WS6
+bindsym mod1+7 workspace $WS7
+bindsym mod1+8 workspace $WS8
+bindsym mod1+9 workspace $WS9
+bindsym mod1+0 workspace $WS0
+
+
+# 重载
+bindsym $mod+Shift+r restart
+
+
+# 调整模式
+bindsym $mod+e mode "edit"
+mode "edit" {
+# 调整窗口大小
+bindsym l resize shrink width 10 px or 10 ppt
+bindsym j resize grow height 10 px or 10 ppt
+bindsym k resize shrink height 10 px or 10 ppt
+bindsym h resize grow width 10 px or 10 ppt
+# 移动当前窗口到另一个工作区
+bindsym 1 move container to workspace $WS1
+bindsym 2 move container to workspace $WS2
+bindsym 3 move container to workspace $WS3
+bindsym 4 move container to workspace $WS4
+bindsym 5 move container to workspace $WS5
+bindsym 6 move container to workspace $WS6
+bindsym 7 move container to workspace $WS7
+bindsym 8 move container to workspace $WS8
+bindsym 9 move container to workspace $WS9
+bindsym 0 move container to workspace $WS0
+# 恢复标准模式
+bindsym Return mode "default"
+bindsym Escape mode "default"
+}
+
+
+# 电源管理
+set $mode_system 系统: 锁屏(L) 注销(O) 重启(R) 关机(S) 取消(Esc)
+bindsym Pause mode "$mode_system"
+mode "$mode_system" {
+bindsym l exec --no-startup-id i3lock -c '#000000', mode "default"
+bindsym o exec --no-startup-id i3-msg exit, mode "default"
+bindsym r exec --no-startup-id systemctl reboot, mode "default"
+bindsym s exec --no-startup-id systemctl poweroff, mode "default"
+bindsym x exec --no-startup-id systemctl suspend, mode "default"
+
+bindsym Escape mode "default"
+}
